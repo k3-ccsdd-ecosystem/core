@@ -1,0 +1,33 @@
+{
+  "name": "ccsdd-core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "CCSDD エコシステムの中核: 成果物テンプレート、ID 規約、gate-checker、AI 設定",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
+  "bin": {
+    "gate-check": "gate-checker/dist/gate-check.mjs"
+  },
+  "scripts": {
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "build": "node gate-checker/build.ts",
+    "gate-check": "node gate-checker/dist/gate-check.mjs"
+  },
+  "dependencies": {
+    "@cucumber/gherkin": "42.0.1",
+    "@cucumber/messages": "34.2.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.6",
+    "@types/node": "24.19.2",
+    "esbuild": "0.28.2",
+    "typescript": "5.9.3",
+    "vitest": "3.2.7"
+  }
+}
