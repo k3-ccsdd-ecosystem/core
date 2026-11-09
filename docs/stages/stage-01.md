@@ -16,7 +16,7 @@
 
 | ID | 中項目 | 小項目 | インプット | アウトプット（置き場） | テンプレート | skill | agent | 機械チェック | 新規 | 既存 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| 1-1 | 準備 | spec リポジトリの作成と雛形適用 | （外部）プロジェクトの開始 | spec リポジトリ（`.claude/`、`.ccsdd/`、`core.lock`） | — | —（人が実施。2 節） | — | — | ○ | ○ |
+| 1-1 | 準備 | spec リポジトリの作成と雛形適用 | （外部）プロジェクトの開始 | spec リポジトリ（成果物ディレクトリ、AI 設定 `.claude/`、core の配布物 `.ccsdd/` と `core.lock`、CI（`gate-check --stage <n> --record` を実行する workflow。template-spec で作る）） | — | —（人が実施。2 節） | — | — | ○ | ○ |
 | 1-2 | 企画 | アイデアの発散と背景整理 | 1-1 spec リポジトリ、（外部）着想・課題メモ | ブレスト記録（`docs/01-planning/brainstorm.md`） | `spec/01-planning/brainstorm.md` | `ccsdd-planning` | planner | 必須節、発散したアイデア 3 件以上 | ○ | ○ |
 | 1-3 | 企画 | コンセプト・対象ユーザー・価値仮説の定義 | 1-2 ブレスト記録 | 企画書（`docs/01-planning/concept.md`） | `spec/01-planning/concept.md` | `ccsdd-planning` | planner | 必須節、表、検証の問答 3 件以上、参照元のパス | ○ | ○ |
 | 1-4 | 企画 | 類似事例・技術の調査 | 1-2 ブレスト記録 | 調査メモ（`docs/01-planning/research.md`） | `spec/01-planning/research.md` | `ccsdd-planning` | planner | 必須節、各行の出典、参照元のパス | ○ | ○ |
