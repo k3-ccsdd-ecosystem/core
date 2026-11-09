@@ -44,8 +44,6 @@ root="$(git rev-parse --show-toplevel 2>/dev/null)" || die "git リポジトリ�
 cd "$root"
 settings=".claude/settings.json"
 [ -f "$settings" ] || die "$settings がありません（core の scripts/sync-core.sh で配布してください）"
-command -v claude >/dev/null 2>&1 || die "claude コマンドがありません"
-command -v node >/dev/null 2>&1 || die "node がありません"
 
 if [[ "$target" =~ ^[0-9]+-[0-9]+$ ]]; then
   subitem="$target"
@@ -74,6 +72,9 @@ if [ "${CCSDD_DRY_RUN:-}" = "1" ]; then
     "$prompt" "$model" "$settings" "$max_turns"
   exit 0
 fi
+
+command -v claude >/dev/null 2>&1 || die "claude コマンドがありません"
+command -v node >/dev/null 2>&1 || die "node がありません"
 
 mkdir -p .ccsdd/runs
 out=".ccsdd/runs/$(date +%Y%m%d-%H%M%S)-${stage}-${label}.json"
