@@ -266,48 +266,23 @@ describe("不合格例（todo-fail）", () => {
 });
 
 describe("判定記録（--record）", () => {
-  const record = (stage: number) =>
-    [
-      `# GATE-${stage}: 判定`,
-      "",
-      "## 対象",
-      "",
-      "| 成果物 | パス | コミット |",
-      "|---|---|---|",
-      "| 企画書 | `docs/01-planning/concept.md` | 0123456789abcdef0123456789abcdef01234567 |",
-      "",
-      "## 機械チェック結果",
-      "",
-      "- 結果: 合格",
-      "",
-      "## 人の判定",
-      "",
-      "- 判定: Go",
-      "- 判定者: kokko333",
-      "- 日付: 2026-11-09",
-      "- 条件: なし",
-      "- 理由: 完了条件を満たす",
-      "",
-      "## 引き渡し物",
-      "",
-      "| 引き渡し物 | パス | 受け取る段階 |",
-      "|---|---|---|",
-      "| 企画書 | `docs/01-planning/concept.md` | 2-1 |",
-      "",
-    ].join("\n");
-
-  it("記入済みの判定記録は合格", () => {
+  it.each([1, 2])("合格例の判定記録（gates/gate-%i.md）は合格", (stage) => {
     const root = copyFixture("todo-pass");
-    write(root, "gates/gate-1.md", record(1));
-    const { result } = gate(root, 1, true);
+    const { result } = gate(root, stage, true);
     expect(errorCodes(result)).toEqual([]);
     expect(result.mode).toBe("record");
   });
 
-  it("判定記録が無い・記入欄が残る・題の ID が違う・判定の値が不正", () => {
+  it("判定記録が無い", () => {
     const root = copyFixture("todo-pass");
+    rmSync(join(root, "gates/gate-1.md"));
     expect(errorCodes(gate(root, 1, true).result)).toEqual(["file.missing"]);
-    write(root, "gates/gate-1.md", record(2).replace("- 判定: Go", "- 判定: {{Go / No-Go}}"));
+  });
+
+  it("記入欄が残る・題の ID が違う・判定の値が不正", () => {
+    const root = copyFixture("todo-pass");
+    edit(root, "gates/gate-1.md", "# GATE-1:", "# GATE-2:");
+    edit(root, "gates/gate-1.md", "- 判定: Go", "- 判定: {{Go / No-Go}}");
     expect(errorCodes(gate(root, 1, true).result)).toEqual([
       "placeholder.remaining",
       "field.invalid",
@@ -315,15 +290,31 @@ describe("判定記録（--record）", () => {
     ]);
   });
 
+  it.each([
+    ["判定者", /- 判定者: .*\n/],
+    ["日付", /- 日付: .*\n/],
+    ["条件", /- 条件: .*\n/],
+    ["理由", /- 理由: .*\n/],
+  ])("人の判定の「%s」が無い", (_key, line) => {
+    const root = copyFixture("todo-pass");
+    edit(root, "gates/gate-1.md", line, "");
+    expect(errorCodes(gate(root, 1, true).result)).toEqual(["field.missing"]);
+  });
+
+  it("日付の形式が不正", () => {
+    const root = copyFixture("todo-pass");
+    edit(root, "gates/gate-1.md", "- 日付: 2026-11-09", "- 日付: 2026/11/09");
+    expect(errorCodes(gate(root, 1, true).result)).toEqual(["field.invalid"]);
+  });
+
   it("成果物が不合格なのに Go は矛盾、No-Go は記録できる", () => {
     const root = copyFixture("todo-pass");
     edit(root, "docs/01-planning/concept.md", "## スコープ外", "## 範囲外");
-    write(root, "gates/gate-1.md", record(1));
     expect(errorCodes(gate(root, 1, true).result)).toEqual([
       "section.missing",
       "record.decision.inconsistent",
     ]);
-    write(root, "gates/gate-1.md", record(1).replace("- 判定: Go", "- 判定: No-Go"));
+    edit(root, "gates/gate-1.md", "- 判定: Go", "- 判定: No-Go");
     expect(errorCodes(gate(root, 1, true).result)).toEqual(["section.missing"]);
   });
 });

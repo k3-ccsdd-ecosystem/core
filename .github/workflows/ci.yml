@@ -30,6 +30,8 @@ jobs:
         run: |
           node gate-checker/dist/gate-check.mjs --stage 1 --root gate-checker/test/fixtures/todo-pass --no-write
           node gate-checker/dist/gate-check.mjs --stage 2 --root gate-checker/test/fixtures/todo-pass --no-write
+          node gate-checker/dist/gate-check.mjs --stage 1 --root gate-checker/test/fixtures/todo-pass --record --no-write
+          node gate-checker/dist/gate-check.mjs --stage 2 --root gate-checker/test/fixtures/todo-pass --record --no-write
           if node gate-checker/dist/gate-check.mjs --stage 2 --root gate-checker/test/fixtures/todo-fail --no-write; then
             echo "todo-fail が合格になった" >&2
             exit 1
