@@ -46,6 +46,35 @@ describe("合格例（todo-pass）", () => {
     expect(result.checks.find((c) => c.id === "artifact:as-is")?.status).toBe("fail");
     expect(errorCodes(result)).toEqual(["file.missing"]);
   });
+
+  it("現状調査報告も参照元のパスを検査する", () => {
+    const root = copyFixture("todo-pass");
+    edit(root, "docs/01-planning/plan-path.md", "開発パターン: 新規", "開発パターン: 既存");
+    const section = (name: string, body: string) => `## ${name}\n\n${body}\n`;
+    write(
+      root,
+      "docs/01-planning/as-is.md",
+      [
+        "# 現状調査報告: 旧 ToDo\n",
+        section("参照元", "- （既存）既存文書: `legacy/README.md`"),
+        section("調査範囲と方法", "リポジトリの構造と依存関係を読んだ。"),
+        section("構成", "単一の Web アプリ。"),
+        section(
+          "技術スタック",
+          "| 層 | 技術 | バージョン | 備考 |\n|---|---|---|---|\n| BE | Node.js | 18 | なし |",
+        ),
+        section(
+          "設計書の有無",
+          "| 文書 | 所在 | 状態 | 備考 |\n|---|---|---|---|\n| 画面仕様 | なし | 無い | なし |",
+        ),
+        section("開発の実践", "main への直接 push（聞き取りは未確定）。"),
+        section("後工程への影響", "認証方式を制約一覧で決め直す。"),
+      ].join("\n"),
+    );
+    expect(errorCodes(gate(root, 1).result)).toEqual(["path.unresolved"]);
+    write(root, "legacy/README.md", "# 旧 ToDo\n");
+    expect(errorCodes(gate(root, 1).result)).toEqual([]);
+  });
 });
 
 describe("段階 1 の不合格例", () => {
@@ -106,6 +135,17 @@ describe("段階 1 の不合格例", () => {
     [
       "参照元のパスが存在しない",
       (r) => edit(r, "docs/01-planning/concept.md", "brainstorm.md", "idea.md"),
+      ["path.unresolved"],
+    ],
+    [
+      "ブレスト記録の参照元のパスが存在しない",
+      (r) =>
+        edit(
+          r,
+          "docs/01-planning/brainstorm.md",
+          "プロンプトで受領（2026-11-09）",
+          "`memo/idea.md`",
+        ),
       ["path.unresolved"],
     ],
     [
@@ -192,6 +232,11 @@ describe("段階 2 の不合格例", () => {
       // SCR-1 がストーリーを参照せず、US-1 は画面一覧に無くなる
       (r) => edit(r, "docs/02-ux/screens.md", "| 本人確認 | US-1 |", "| 本人確認 | なし |"),
       ["id.coverage", "id.context"],
+    ],
+    [
+      "ジャーニーの「考え・感情」が空欄",
+      (r) => edit(r, "docs/02-ux/personas.md", "| 手早く済ませたい |", "|  |"),
+      ["table.cell.empty"],
     ],
     [
       "MVP の値が不正",
