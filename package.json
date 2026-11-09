@@ -4,6 +4,7 @@
   "private": true,
   "description": "CCSDD エコシステムの中核: 成果物テンプレート、ID 規約、gate-checker、AI 設定",
   "type": "module",
+  "license": "MIT",
   "engines": {
     "node": ">=24"
   },

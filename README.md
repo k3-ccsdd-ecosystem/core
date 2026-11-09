@@ -71,6 +71,7 @@ scripts/sync-core.sh --target ../todo-spec --dry-run           # 変わるファ
 
 - hash は改行を LF に揃えて計算する。対象リポジトリには `.gitattributes`（`* text=auto eol=lf`）を置く
 - ローカルの改変は core へ PR して取り込み、再配布する（D5）
+- core の [LICENSE](./LICENSE)（MIT）は core のコードに適用される
 
 ## 段階の実行
 
