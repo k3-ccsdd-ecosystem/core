@@ -1,0 +1,36 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: lint / typecheck / test / build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - name: dist が src から作り直したものと一致する
+        run: |
+          npm run build
+          git diff --exit-code -- gate-checker/dist
+      - name: 合格例・不合格例で gate-check を動かす
+        run: |
+          node gate-checker/dist/gate-check.mjs --stage 1 --root gate-checker/test/fixtures/todo-pass --no-write
+          node gate-checker/dist/gate-check.mjs --stage 2 --root gate-checker/test/fixtures/todo-pass --no-write
+          if node gate-checker/dist/gate-check.mjs --stage 2 --root gate-checker/test/fixtures/todo-fail --no-write; then
+            echo "todo-fail が合格になった" >&2
+            exit 1
+          fi
