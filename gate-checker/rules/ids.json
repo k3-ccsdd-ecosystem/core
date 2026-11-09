@@ -1,0 +1,33 @@
+{
+  "prefixes": [
+    "CST",
+    "PER",
+    "US",
+    "SCR",
+    "API",
+    "SEQ",
+    "NFR",
+    "RES",
+    "SLI",
+    "ALT",
+    "THR",
+    "TST",
+    "GATE"
+  ],
+  "kinds": {
+    "CST": { "title": "制約", "pattern": "^CST-[1-9][0-9]*$" },
+    "PER": { "title": "ペルソナ", "pattern": "^PER-[1-9][0-9]*$" },
+    "US": { "title": "ユーザーストーリー", "pattern": "^US-[1-9][0-9]*$" },
+    "US-AC": { "title": "受け入れ条件", "pattern": "^US-[1-9][0-9]*-AC[1-9][0-9]*$" },
+    "SCR": { "title": "画面", "pattern": "^SCR-[1-9][0-9]*$" },
+    "API": { "title": "API", "pattern": "^API-[1-9][0-9]*$" },
+    "SEQ": { "title": "シーケンス", "pattern": "^SEQ-[1-9][0-9]*$" },
+    "NFR": { "title": "非機能要件", "pattern": "^NFR-[1-9][0-9]*$" },
+    "RES": { "title": "リソース", "pattern": "^RES-[1-9][0-9]*$" },
+    "SLI": { "title": "SLI", "pattern": "^SLI-[1-9][0-9]*$" },
+    "ALT": { "title": "アラート", "pattern": "^ALT-[1-9][0-9]*$" },
+    "THR": { "title": "脅威", "pattern": "^THR-[1-9][0-9]*$" },
+    "TST": { "title": "試験", "pattern": "^TST-[1-9][0-9]*$" },
+    "GATE": { "title": "判定記録", "pattern": "^GATE-([1-9]|1[0-2])$" }
+  }
+}

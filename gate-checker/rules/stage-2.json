@@ -1,0 +1,161 @@
+{
+  "stage": 2,
+  "gate": "GATE-2",
+  "title": "UX 承認",
+  "scan": ["docs/01-planning/**/*.md", "docs/02-ux/**/*.md", "docs/02-ux/stories/*.feature"],
+  "artifacts": [
+    {
+      "id": "personas",
+      "title": "ペルソナとジャーニー",
+      "subitem": "2-1",
+      "path": "docs/02-ux/personas.md",
+      "template": "spec/02-ux/personas.md",
+      "sourceSection": "参照元",
+      "sections": ["参照元", "ペルソナ", "ジャーニー", "企画書との対応"],
+      "tables": [
+        {
+          "section": "ジャーニー",
+          "columns": ["段階", "行動", "考え・感情", "接点", "課題・機会"],
+          "nonEmpty": ["段階", "行動", "接点", "課題・機会"]
+        },
+        {
+          "section": "企画書との対応",
+          "columns": ["対象ユーザー", "ペルソナ", "価値仮説"],
+          "nonEmpty": ["対象ユーザー", "ペルソナ", "価値仮説"]
+        }
+      ]
+    },
+    {
+      "id": "screens",
+      "title": "画面遷移",
+      "subitem": "2-3",
+      "path": "docs/02-ux/screens.md",
+      "template": "spec/02-ux/screens.md",
+      "sourceSection": "参照元",
+      "sections": ["参照元", "画面一覧", "遷移"],
+      "tables": [
+        {
+          "section": "画面一覧",
+          "columns": ["ID", "画面名", "目的", "ストーリー"],
+          "nonEmpty": ["ID", "画面名", "目的", "ストーリー"]
+        },
+        {
+          "section": "遷移",
+          "columns": ["遷移元", "遷移先", "契機", "ストーリー"],
+          "nonEmpty": ["遷移元", "遷移先", "契機", "ストーリー"]
+        }
+      ]
+    },
+    {
+      "id": "mvp",
+      "title": "MVP スライス",
+      "subitem": "2-4",
+      "path": "docs/02-ux/mvp.md",
+      "template": "spec/02-ux/mvp.md",
+      "sourceSection": "参照元",
+      "sections": ["参照元", "優先度の基準", "スライス", "MVP の狙い"],
+      "tables": [
+        {
+          "section": "スライス",
+          "columns": ["ストーリー", "優先度", "MVP", "価値仮説", "関係する制約", "理由"],
+          "nonEmpty": ["ストーリー", "優先度", "MVP", "価値仮説", "関係する制約", "理由"],
+          "allowedValues": {
+            "優先度": ["Must", "Should", "Could", "Won't"],
+            "MVP": ["含む", "含まない"]
+          }
+        }
+      ]
+    }
+  ],
+  "gherkin": [
+    {
+      "id": "stories",
+      "title": "ユーザーストーリーと受け入れ条件",
+      "subitem": "2-2",
+      "files": "docs/02-ux/stories/*.feature",
+      "template": "spec/02-ux/stories/US-n.feature",
+      "minFiles": 1,
+      "featureIdKind": "US",
+      "scenarioIdKind": "US-AC",
+      "fileNameMatchesId": true,
+      "minScenarios": 1,
+      "requireStepTypes": ["Action", "Outcome"]
+    }
+  ],
+  "definitions": [
+    { "kind": "CST", "files": ["docs/01-planning/constraints.md"] },
+    { "kind": "PER", "files": ["docs/02-ux/personas.md"] },
+    { "kind": "US", "files": ["docs/02-ux/stories/*.feature"] },
+    { "kind": "US-AC", "files": ["docs/02-ux/stories/*.feature"] },
+    { "kind": "SCR", "files": ["docs/02-ux/screens.md"] }
+  ],
+  "coverage": [
+    {
+      "id": "story-persona",
+      "title": "全ストーリーがペルソナを参照",
+      "each": "US",
+      "contextReferences": ["PER"]
+    },
+    {
+      "id": "story-screen",
+      "title": "全ストーリーに画面",
+      "each": "US",
+      "referencedIn": ["docs/02-ux/screens.md"],
+      "inSection": "画面一覧"
+    },
+    {
+      "id": "story-mvp",
+      "title": "全ストーリーが MVP スライスで分類済み",
+      "each": "US",
+      "referencedIn": ["docs/02-ux/mvp.md"],
+      "inSection": "スライス"
+    },
+    {
+      "id": "screen-story",
+      "title": "全画面がストーリーを参照",
+      "each": "SCR",
+      "contextReferences": ["US"]
+    },
+    {
+      "id": "persona-journey",
+      "title": "全ペルソナにジャーニー",
+      "each": "PER",
+      "referencedIn": ["docs/02-ux/personas.md"],
+      "inSection": "ジャーニー"
+    },
+    {
+      "id": "persona-used",
+      "title": "全ペルソナがストーリーで使われている",
+      "each": "PER",
+      "referencedIn": ["docs/02-ux/stories/*.feature"],
+      "severity": "warning"
+    }
+  ],
+  "record": {
+    "id": "gate-2",
+    "title": "判定記録",
+    "subitem": "2-5",
+    "path": "gates/gate-2.md",
+    "template": "common/gate.md",
+    "sections": ["対象", "機械チェック結果", "人の判定", "引き渡し物"],
+    "fields": [
+      { "key": "判定", "oneOf": ["Go", "条件付き Go", "保留", "No-Go"] },
+      { "key": "判定者" },
+      { "key": "日付", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" }
+    ],
+    "tables": [
+      {
+        "section": "対象",
+        "columns": ["成果物", "パス", "コミット"],
+        "nonEmpty": ["成果物", "パス", "コミット"]
+      },
+      {
+        "section": "引き渡し物",
+        "columns": ["引き渡し物", "パス", "受け取る段階"],
+        "nonEmpty": ["引き渡し物", "パス", "受け取る段階"]
+      }
+    ],
+    "decisionKey": "判定",
+    "decisionsRequiringPass": ["Go", "条件付き Go"]
+  }
+}
