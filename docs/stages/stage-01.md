@@ -32,16 +32,16 @@
 1. GitHub で template-spec から製品の spec リポジトリを作る（例: `gh repo create <org>/<product>-spec --template k3-ccsdd-ecosystem/template-spec --public --clone`）
 2. 既存のリポジトリに後付けする場合や、雛形より新しい core を入れる場合は、core のクローンで `scripts/sync-core.sh --target <spec リポジトリ>` を実行し、`core.lock` とコピーしたファイルをコミットする
 
-1-2〜1-8 は、spec リポジトリのルートで `.ccsdd/scripts/run-stage.sh` から skill を起動する（対話セッションで `/ccsdd-planning 1-3` のように起動してもよい）:
+1-2〜1-8 は、spec リポジトリのルートで `bash .ccsdd/scripts/run-stage.sh` で skill を起動する（対話セッションで `/ccsdd-planning 1-3` のように起動してもよい）:
 
 ```bash
-.ccsdd/scripts/run-stage.sh 1 1-2 "着想メモ: <メモの本文、またはファイルのパス>"
-.ccsdd/scripts/run-stage.sh 1 1-3
-.ccsdd/scripts/run-stage.sh 1 1-4
-.ccsdd/scripts/run-stage.sh 1 1-5   # 既存システムの更改のときだけ
-.ccsdd/scripts/run-stage.sh 1 1-6 "予算: 月額 3,000 円以内"
-.ccsdd/scripts/run-stage.sh 1 1-7
-.ccsdd/scripts/run-stage.sh 1 1-8
+bash .ccsdd/scripts/run-stage.sh 1 1-2 "着想メモ: <メモの本文、またはファイルのパス>"
+bash .ccsdd/scripts/run-stage.sh 1 1-3
+bash .ccsdd/scripts/run-stage.sh 1 1-4
+bash .ccsdd/scripts/run-stage.sh 1 1-5   # 既存システムの更改のときだけ
+bash .ccsdd/scripts/run-stage.sh 1 1-6 "予算: 月額 3,000 円以内"
+bash .ccsdd/scripts/run-stage.sh 1 1-7
+bash .ccsdd/scripts/run-stage.sh 1 1-8
 ```
 
 - skill は作業ブランチ `stage-1` に成果物を書き、セルフレビューしてから小項目ごとにコミットする

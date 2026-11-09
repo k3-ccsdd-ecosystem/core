@@ -27,11 +27,11 @@
 段階 2 は GATE-1 の PR をマージしてから始める。spec リポジトリのルートで:
 
 ```bash
-.ccsdd/scripts/run-stage.sh 2 2-1
-.ccsdd/scripts/run-stage.sh 2 2-2
-.ccsdd/scripts/run-stage.sh 2 2-3
-.ccsdd/scripts/run-stage.sh 2 2-4
-.ccsdd/scripts/run-stage.sh 2 2-5
+bash .ccsdd/scripts/run-stage.sh 2 2-1
+bash .ccsdd/scripts/run-stage.sh 2 2-2
+bash .ccsdd/scripts/run-stage.sh 2 2-3
+bash .ccsdd/scripts/run-stage.sh 2 2-4
+bash .ccsdd/scripts/run-stage.sh 2 2-5
 ```
 
 - skill は作業ブランチ `stage-2`（main から作る）に成果物を書き、セルフレビューしてから小項目ごとにコミットする
