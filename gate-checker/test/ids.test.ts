@@ -26,6 +26,7 @@ describe("ID の検出と形式", () => {
       "ALT",
       "THR",
       "TST",
+      "E2E",
     ]) {
       expect(ids.classify(`${p}-1`)).toBe(p);
       expect(ids.classify(`${p}-12`)).toBe(p);
@@ -36,7 +37,16 @@ describe("ID の検出と形式", () => {
   });
 
   it("ゼロ埋め、0 番、範囲外の判定番号、AC の欠けは形式違反", () => {
-    for (const bad of ["CST-01", "CST-0", "US-1-AC", "US-1-AC01", "US-1-2", "GATE-13", "SCR-1a"]) {
+    for (const bad of [
+      "CST-01",
+      "CST-0",
+      "US-1-AC",
+      "US-1-AC01",
+      "US-1-2",
+      "GATE-13",
+      "SCR-1a",
+      "E2E-01",
+    ]) {
       expect(found(`参照 ${bad} です`)).toEqual([[bad, null]]);
     }
   });
@@ -49,6 +59,8 @@ describe("ID の検出と形式", () => {
       ["SCR-4", "SCR"],
     ]);
     expect(found("SHA-256 と UTF-8、us-east-1、XUS-1、API-first")).toEqual([]);
+    // 数字を含む接頭辞 E2E
+    expect(found("E2E-3 を参照。E2E テストと E2E-test は ID ではない")).toEqual([["E2E-3", "E2E"]]);
   });
 });
 

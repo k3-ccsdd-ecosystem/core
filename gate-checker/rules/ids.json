@@ -12,6 +12,7 @@
     "ALT",
     "THR",
     "TST",
+    "E2E",
     "GATE"
   ],
   "kinds": {
@@ -27,7 +28,8 @@
     "SLI": { "title": "SLI", "pattern": "^SLI-[1-9][0-9]*$" },
     "ALT": { "title": "アラート", "pattern": "^ALT-[1-9][0-9]*$" },
     "THR": { "title": "脅威", "pattern": "^THR-[1-9][0-9]*$" },
-    "TST": { "title": "試験", "pattern": "^TST-[1-9][0-9]*$" },
+    "TST": { "title": "試験シナリオ（実環境試験）", "pattern": "^TST-[1-9][0-9]*$" },
+    "E2E": { "title": "E2E 試験シナリオ", "pattern": "^E2E-[1-9][0-9]*$" },
     "GATE": { "title": "判定記録", "pattern": "^GATE-([1-9]|1[0-2])$" }
   }
 }
