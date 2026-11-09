@@ -84,8 +84,8 @@ CCSDD_DRY_RUN=1 bash .ccsdd/scripts/run-stage.sh 1 1-3   # 起動せずにコマ
 ```
 
 - 実行するコマンド: `claude -p "/<skill> <小項目 ID> <プロンプト>" --model opus --setting-sources project --settings .claude/settings.json --output-format json --max-turns 50`（`CCSDD_MODEL`、`CCSDD_MAX_TURNS` で変更できる）
-- 結果 JSON を `.ccsdd/runs/<日時>-<段階>-<小項目 ID>.json` に保存し、`permission_denials` と `total_cost_usd`（参考値）を要約して表示する
-- 終了コード: claude が失敗したらその値、成功でも `permission_denials` があれば 3
+- 結果 JSON を `.ccsdd/runs/<日時>-<段階>-<小項目 ID>.json` に保存し、`permission_denials` と `total_cost_usd`（参考値）を要約して表示する。`.ccsdd/runs/` はコミットしない（雛形の `.gitignore` に入れる）
+- 終了コード: claude が失敗したらその値、成功でも `permission_denials` があれば 3。Read / Edit の deny で止めた操作は `permission_denials` に載らない
 - 段階ごとの小項目と skill は [docs/stages/](./docs/stages/)、判定の流れと完了条件は [docs/gates.md](./docs/gates.md)、ID は [docs/ids.md](./docs/ids.md)
 
 ## 開発方法
