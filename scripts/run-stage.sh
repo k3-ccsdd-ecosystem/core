@@ -4,7 +4,7 @@
 # 使い方: run-stage.sh <段階番号> <小項目 ID | skill 名> [プロンプト...]
 #   例: run-stage.sh 1 1-3
 #       run-stage.sh 1 1-2 "着想メモ: 1 行で追加できる ToDo アプリ"
-#       run-stage.sh 1 ccsdd-gate "1-8 判定: Go 判定者: kokko333 理由: 完了条件を満たす"
+#       run-stage.sh 1 ccsdd-gate "1-8 判定: Go 判定者: 判定者名 理由: 完了条件を満たす"
 #
 # 小項目 ID を渡すと、.claude/skills/*/SKILL.md の metadata.ccsdd-subitems からその小項目の skill を探し、
 # 「/<skill> <小項目 ID> <プロンプト>」で起動する。skill 名を渡すと「/<skill> <プロンプト>」で起動する。
